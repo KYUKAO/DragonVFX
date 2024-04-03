@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3206255790094436182
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -56,9 +43,25 @@ Material:
     - Vector1_11a7e7cd513441d48a8c9d9fd3de51cc: 1.17
     - Vector1_47ab0a1ed418493bbc79901466377582: 36.5
     - Vector1_dec27897b5c54223b54d1cd0656d8a9d: 15.3
+    - _Distance: -0.98
+    - _Float: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
     - Vector2_66fec041dfb343e68180640fd6ae910f: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_9da8f3e7242c481bbf6c7cf4c3e0f17d: {r: 0, g: 0.58, b: 0, a: 0}
+    - _Color: {r: 1, g: 0.8908205, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &3692892145614447206
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
