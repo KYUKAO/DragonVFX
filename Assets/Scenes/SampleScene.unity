@@ -10117,7 +10117,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823, type: 2}
+  sharedProfile: {fileID: 0}
 --- !u!4 &832575519
 Transform:
   m_ObjectHideFlags: 0
@@ -10511,7 +10511,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -10536,7 +10536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1146062005
 Transform:
   m_ObjectHideFlags: 0
@@ -10544,8 +10544,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146062004}
-  m_LocalRotation: {x: 0.000000029802326, y: -0.707107, z: 0.000000029802468, w: 0.7071066}
-  m_LocalPosition: {x: -6.33, y: -10.360001, z: 21.27}
+  m_LocalRotation: {x: 0.000000038938666, y: -0.9238796, z: 0.000000016129043, w: 0.3826834}
+  m_LocalPosition: {x: -8.915786, y: -7.8600006, z: 19.855785}
   m_LocalScale: {x: 2.4171026, y: 2.4171028, z: 2.4171026}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10553,7 +10553,7 @@ Transform:
   - {fileID: 943986574}
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
 --- !u!1 &1307952628
 GameObject:
   m_ObjectHideFlags: 0
@@ -15592,6 +15592,8 @@ PlayableDirector:
     value: {fileID: 402706678}
   - key: {fileID: -3884907433365231449, guid: 335f265bf83cd67408183b334c9ff818, type: 2}
     value: {fileID: 512987623}
+  - key: {fileID: -3712848907501948597, guid: 335f265bf83cd67408183b334c9ff818, type: 2}
+    value: {fileID: 1821486828}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1473083718
@@ -16368,8 +16370,8 @@ ParticleSystem:
         m_RotationOrder: 4
   ShapeModule:
     serializedVersion: 6
-    enabled: 0
-    type: 14
+    enabled: 1
+    type: 0
     angle: 8
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -20497,7 +20499,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1821486828}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6fc13bbbd7cc204390e408bd8fc06e9, type: 3}
   m_Name: 
