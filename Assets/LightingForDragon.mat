@@ -50,7 +50,7 @@ Material:
     m_Colors:
     - Vector2_66fec041dfb343e68180640fd6ae910f: {r: 0.5, g: 0.5, b: 0, a: 0}
     - Vector2_9da8f3e7242c481bbf6c7cf4c3e0f17d: {r: 0, g: 0.5, b: 0, a: 0}
-    - _Color: {r: 0.94987327, g: 0.99215686, b: 0.46274507, a: 0}
+    - _Color: {r: 0.92266935, g: 1, b: 0.050943315, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4653591637644520607
 MonoBehaviour:
