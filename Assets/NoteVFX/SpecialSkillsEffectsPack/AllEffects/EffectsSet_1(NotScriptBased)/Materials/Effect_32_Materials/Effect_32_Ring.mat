@@ -135,7 +135,7 @@ Material:
     - _NormalAnimate: 1
     - _NormalAnimateSpeed: 0.1
     - _NormalDistortion: 1
-    - _NormalDistortionFactor: 0.02
+    - _NormalDistortionFactor: 0.008
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _ParticleInstancing: 1

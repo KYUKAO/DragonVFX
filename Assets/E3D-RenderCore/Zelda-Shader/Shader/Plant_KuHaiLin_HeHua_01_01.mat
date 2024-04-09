@@ -225,8 +225,8 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _UseOutline: 1
-    - _WiggleOffset: 0.5
-    - _WindStrength: 0.4
+    - _WiggleOffset: 0.52
+    - _WindStrength: 0.35
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
