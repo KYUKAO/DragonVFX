@@ -12,7 +12,6 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _USEBACKFRESNEL_ON
-  - _USECUSTOMDATA_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -67,9 +66,9 @@ Material:
     - _Emission: 2
     - _EnvironmentReflections: 1
     - _Float0: 1
-    - _Fresnel: 1
+    - _Fresnel: 5
     - _FresnelEmission: 1
-    - _Height: 30
+    - _Height: 9.95
     - _OnlyNoise: 0
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -79,19 +78,19 @@ Material:
     - _Sideopacity: 0
     - _SpecularHighlights: 1
     - _UseBackFresnel: 1
-    - _UseCustomData: 1
+    - _UseCustomData: 0
     - _UseFresnel: 0
     - _Usegradient: 1
     - _Usesmoothcorners: 0
     - _Vertexpower: 0.2
     - __dirty: 1
     m_Colors:
-    - _BackFacesColor: {r: 0.7019608, g: 0.905909, b: 1, a: 1}
-    - _BackFresnelColor: {r: 0.35686278, g: 0.08627448, b: 0.08627448, a: 1}
+    - _BackFacesColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BackFresnelColor: {r: 0.21390173, g: 0.40802753, b: 0.5754717, a: 1}
     - _Color: {r: 0.41960788, g: 0.75651616, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FrontFacesColor: {r: 0.45882353, g: 0.8, b: 1, a: 1}
+    - _FrontFacesColor: {r: 0.73018867, g: 0.9951569, b: 1, a: 1}
     - _SpeedMainTexUVNoiseZW: {r: -0.1, g: -1, b: -0.3, a: -0.5}
     - _SpeedMainTexUVRemapZW: {r: -0.5, g: -4, b: -0.2, a: 1}
   m_BuildTextureStacks: []
