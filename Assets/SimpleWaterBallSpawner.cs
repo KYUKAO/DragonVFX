@@ -8,7 +8,10 @@ public class SimpleWaterBallSpawner : MonoBehaviour
     public float internalTime;
     public Vector2 SpawnRange;
     public Vector2 SizeRange;
+    public int MaxCount = 10;
     private float time;
+    private int count = 0;
+    
     void Start()
     {
         
@@ -18,10 +21,11 @@ public class SimpleWaterBallSpawner : MonoBehaviour
     void FixedUpdate()
     {
         time += Time.fixedDeltaTime;
-        if (time >= internalTime)
+        if (time >= internalTime&&count<=MaxCount)
         {
            SpawnWaterBall(SpawnRange);
            time = 0f;
+           count++;
         }
     }
 
