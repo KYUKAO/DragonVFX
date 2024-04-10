@@ -211,7 +211,7 @@ Material:
     - _RimLightMixAlbedo: 1
     - _RimLightStrength: 0
     - _RimLightThreshold: -1
-    - _RimLightWidth: 0
+    - _RimLightWidth: 20
     - _RimPower: 2.09
     - _RimThred: 0.663
     - _ShadowInMaxStep: 0.231

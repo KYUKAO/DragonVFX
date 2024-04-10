@@ -68,7 +68,7 @@ Shader "URP/Render/S_Ink3"
         [Space(6)][Header(Outline)][Space(4)]
         [Toggle(_OUTLINE_ON)] _UseOutline("Use Outline?", float) = 1
         [Toggle] _OutlineAutoSize ("Outline Auto Size?", Int) = 0
-        _OutlineColor ("Outline Color", Color) = (0, 0, 0)
+        [HDR]_OutlineColor ("Outline Color", Color) = (0, 0, 0)
         _OutlineWidth ("Outline Width", Range(0.0, 64.0)) = 0.5
         _OutlineNoiseMap ("Outline Noise Map", 2D) = "white" {}
         _OutlineNoiseWidth ("Outline Noise Width", Range(0.0, 2.0)) = 1.0
