@@ -181,7 +181,7 @@ Material:
     - _InkMapScale: 0
     - _InlinePower: 0.45
     - _InlineThred: 0.5
-    - _InteriorNoiseLevel: 0.7
+    - _InteriorNoiseLevel: 0.64
     - _LineNoiseMapFresnelScale: 1
     - _LineNoiseMapMax: 1
     - _LineNoiseMapMin: 0
@@ -191,7 +191,7 @@ Material:
     - _Mode: 0
     - _NoiseMapScaleA: 15
     - _NoiseMapScaleB: 2
-    - _NoiseStrength: 1
+    - _NoiseStrength: 0
     - _NoiseStrengthA: 1
     - _NormalMapStrength: 1
     - _OcclusionStrength: 1
@@ -200,7 +200,7 @@ Material:
     - _OutlineNoiseWidth: 2
     - _OutlineWidth: 0.2
     - _PaperMapScale: 0.4
-    - _PaperStrength: 0.4
+    - _PaperStrength: 0
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _RampGguassian: 1
@@ -237,14 +237,14 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _PositionOffset: {r: 0, g: 0, b: 0, a: 1}
     - _PositionOffsetSpeed: {r: 0, g: 0, b: 0, a: 1}
-    - _RampDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RampDarkColor: {r: 0.5660378, g: 0.5254539, b: 0.5254539, a: 1}
     - _RampLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightTintColor: {r: 1, g: 0.68567735, b: 0.53207546, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowInColor: {r: 0.5, g: 0.3695784, b: 0.2004717, a: 1}
-    - _ShadowOutColor: {r: 0.21698111, g: 0.13441372, b: 0, a: 1}
+    - _ShadowInColor: {r: 0.6603774, g: 0.50089, b: 0.50089, a: 1}
+    - _ShadowOutColor: {r: 0.6415094, g: 0.57815146, b: 0.47447488, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

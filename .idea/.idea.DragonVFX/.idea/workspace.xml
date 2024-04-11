@@ -14,6 +14,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/VignetteControl.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@12.1.13/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
@@ -94,6 +95,8 @@
       <workItem from="1712543032740" duration="9000" />
       <workItem from="1712719566720" duration="1281000" />
       <workItem from="1712741701456" duration="602000" />
+      <workItem from="1712815964625" duration="1110000" />
+      <workItem from="1712822658761" duration="326000" />
     </task>
     <servers />
   </component>

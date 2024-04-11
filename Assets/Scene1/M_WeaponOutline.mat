@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
-    - _Float0: 1
+    - _Float0: 0
     - _Intensity: 0.11
     - _NormalIntensity: 1
     - _OutlineWidth: 0.02
@@ -62,7 +62,7 @@ Material:
     - _TransStrength: 1
     - _TransmissionShadow: 0.5
     m_Colors:
-    - _BaseMapColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+    - _BaseMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 0.96663356, b: 0.68301886, a: 1}
   m_BuildTextureStacks: []

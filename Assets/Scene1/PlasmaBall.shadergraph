@@ -222,7 +222,7 @@
                 "m_Node": {
                     "m_Id": "ca5cb5f67b41442890e91a88f480cb18"
                 },
-                "m_SlotId": 1935271079
+                "m_SlotId": 268306565
             }
         },
         {
@@ -933,21 +933,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "062fc1443b6b406e89e8a47076496d61",
-    "m_Id": 1935271079,
-    "m_DisplayName": "Scale",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "_Scale",
-    "m_StageCapability": 3,
-    "m_Value": 1.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "07e7f6d344dc4628957f5908e67d6009",
     "m_Id": 1,
@@ -1187,6 +1172,27 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "SurfaceDescription.AlphaClipThreshold"
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "0b97294ee8c942c0b63b8d78904fba80",
+    "m_Id": 268306565,
+    "m_DisplayName": "Scale",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Scale",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 10.0,
+        "y": 10.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -5093,7 +5099,7 @@
             "m_Id": "b61878b109c74c9d855c6c212df209a5"
         },
         {
-            "m_Id": "062fc1443b6b406e89e8a47076496d61"
+            "m_Id": "0b97294ee8c942c0b63b8d78904fba80"
         },
         {
             "m_Id": "8c68aa1b514944b19c34717bbcbdaaa2"
@@ -5109,11 +5115,13 @@
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"2860abc00aa6d5649be52c0a33b4fed0\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [
         "b017c162-bc86-4271-beb5-c9aa51787a99",
-        "b79189c3-d16f-4267-882a-d25f83967dd9"
+        "b79189c3-d16f-4267-882a-d25f83967dd9",
+        "18e24735-29e0-47fe-8366-9c99d3007ec9"
     ],
     "m_PropertyIds": [
         -1042960373,
-        1935271079
+        1935271079,
+        268306565
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []

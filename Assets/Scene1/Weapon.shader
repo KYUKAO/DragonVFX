@@ -515,7 +515,7 @@ Shader "Weapon"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 _Vector0 = float4(0,0,0,0);
+				float4 _Vector0 = float4(1,1,0,0);
 				float2 appendResult25 = (float2(_Vector0.x , _Vector0.y));
 				float2 appendResult14 = (float2(_Vector0.z , _Vector0.w));
 				float2 texCoord26 = IN.ase_texcoord8.xy * appendResult25 + appendResult14;
@@ -1265,7 +1265,7 @@ Shader "Weapon"
 					#endif
 				#endif
 
-				float4 _Vector0 = float4(0,0,0,0);
+				float4 _Vector0 = float4(1,1,0,0);
 				float2 appendResult25 = (float2(_Vector0.x , _Vector0.y));
 				float2 appendResult14 = (float2(_Vector0.z , _Vector0.w));
 				float2 texCoord26 = IN.ase_texcoord2.xy * appendResult25 + appendResult14;
@@ -1940,7 +1940,7 @@ Shader "Weapon"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 _Vector0 = float4(0,0,0,0);
+				float4 _Vector0 = float4(1,1,0,0);
 				float2 appendResult25 = (float2(_Vector0.x , _Vector0.y));
 				float2 appendResult14 = (float2(_Vector0.z , _Vector0.w));
 				float2 texCoord26 = IN.ase_texcoord8.xy * appendResult25 + appendResult14;
@@ -2552,7 +2552,7 @@ Node;AmplifyShaderEditor.OneMinusNode;15;-1565.601,454.5412;Inherit;False;1;0;FL
 Node;AmplifyShaderEditor.StepOpNode;16;-1416.88,380.5087;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;21;-839.7473,240.2737;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.DynamicAppendNode;14;-1786.4,61.621;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.Vector4Node;24;-2045.2,-41.89906;Inherit;False;Constant;_Vector0;Vector 0;1;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.Vector4Node;24;-2045.2,-41.89906;Inherit;False;Constant;_Vector0;Vector 0;1;0;Create;True;0;0;0;False;0;False;1,1,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.DynamicAppendNode;25;-1793.078,-53.58676;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;26;-1632.789,-70.28379;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;27;-1414.061,-100.3381;Inherit;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -2597,4 +2597,4 @@ WireConnection;37;0;29;0
 WireConnection;1;0;38;0
 WireConnection;1;6;39;0
 ASEEND*/
-//CHKSM=A801E46614FBF930827721E7BB9983B72B600208
+//CHKSM=D09462CD78D3D25F506C4634A49719D0D2BCB17E
