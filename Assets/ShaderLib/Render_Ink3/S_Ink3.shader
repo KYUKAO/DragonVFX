@@ -6,6 +6,8 @@ Shader "URP/Render/S_Ink3"
         _BaseColor ("BaseColor", Color) = (1, 1, 1, 1)
         _BaseMap ("BaseMap", 2D) = "white" {}
     	_BaseMapFloor ("Base Map Floor", Float) = 100
+    	_Alpha("Alpha", Range(0, 1)) = 1
+    	[Toggle(ShadowCaster_ON)] _UseShadowCaster("UseShadowCaster?", float) = 1
         
         [Space(6)][Header(Ramp)][Space(4)]
     	_RampLightColor ("Ramp Light Color", Color) = (1, 1, 1)
@@ -85,9 +87,11 @@ Shader "URP/Render/S_Ink3"
         Tags 
         {
             "RenderPipeline" = "UniversalPipeline"
-            "RenderType" = "Opaque"
-            "Queue" = "Geometry"
+            "RenderType" = "Transparent"
+            "Queue" = "Transparent"
         }
+        Blend SrcAlpha OneMinusSrcAlpha
+
         
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -97,6 +101,8 @@ Shader "URP/Render/S_Ink3"
 		half4 _BaseColor;
 		float4 _BaseMap_ST;
 		float _BaseMapFloor;
+        float _Alpha;
+
         
         half3 _RampLightColor;
         half3 _RampDarkColor;
@@ -416,7 +422,7 @@ Shader "URP/Render/S_Ink3"
 				color = lerp(color, fresnelColor, fresnel);		// 混合菲涅尔
 
 				// Alpha
-                half alpha = baseMap.a;
+                half alpha = _Alpha;
 				if (_DebugColor >0)
                 {
 	                color = baseMap.rgb * lightMode * mainLightColor * mainLightShadow + baseMap.rgb * Ambient;
@@ -844,7 +850,7 @@ Shader "URP/Render/S_Ink3"
             	color = lerp(rimLightColor, color, 0.1) * _OutlineColor.rgb;
             	
             	color.rgb = MixFog(color.rgb, input.fogFactor);
-                return float4(color.rgb, 1);
+                return float4(color.rgb, _Alpha);
             }
 
 	        #else

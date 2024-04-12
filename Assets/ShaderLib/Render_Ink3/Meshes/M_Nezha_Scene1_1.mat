@@ -143,6 +143,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ALPHATEST: 0
+    - _Alpha: 1
     - _AlphaClip: 0
     - _BaseMapFloor: 35
     - _Blend: 0
