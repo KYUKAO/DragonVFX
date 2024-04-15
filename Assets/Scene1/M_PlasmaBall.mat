@@ -39,9 +39,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.847
+    - _Alpha: 1
     - _Contrast: 3.78
-    - _Distortion: 0.316
+    - _Distortion: 0.179
     - _FresnelPower: 1
     - _InnerColorPower: 0
     - _QueueControl: 0

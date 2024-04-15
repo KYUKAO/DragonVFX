@@ -13,7 +13,8 @@ Material:
   - _LINESTYLE_SINGLECOLOR
   - _OUTLINE_ON
   - _RAMPGGUASSIAN_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - ShadowCaster_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -198,6 +199,7 @@ Material:
     - _Surface: 1
     - _UVSec: 0
     - _UseOutline: 1
+    - _UseShadowCaster: 1
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
