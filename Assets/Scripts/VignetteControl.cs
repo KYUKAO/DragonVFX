@@ -1,39 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class VignetteControl : MonoBehaviour
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+public class VignetteControl : ScriptableRendererFeature
 {
-    [Range(0, 3)]
+    class VignettePass : ScriptableRenderPass
+    {
+        private Material vignetteMaterial;
+        private RenderTargetIdentifier source;
+        private RenderTargetHandle temporaryRenderTargetHandle;
+
+        public float vignetteIntensity;
+        public float vignetteSmoothness;
+
+        public VignettePass(Material material)
+        {
+            vignetteMaterial = material;
+            temporaryRenderTargetHandle.Init("_TemporaryColorTexture");
+        }
+
+        public void Setup(RenderTargetIdentifier sourceIdentifier, float intensity, float smoothness)
+        {
+            this.source = sourceIdentifier;
+            this.vignetteIntensity = intensity;
+            this.vignetteSmoothness = smoothness;
+        }
+
+        public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+        {
+            vignetteMaterial.SetFloat("_VignetteIntensity", vignetteIntensity);
+            vignetteMaterial.SetFloat("_VignetteSmoothness", vignetteSmoothness);
+
+            CommandBuffer cmd = CommandBufferPool.Get("Vignette Effect");
+            RenderTextureDescriptor opaqueDesc = renderingData.cameraData.cameraTargetDescriptor;
+            opaqueDesc.depthBufferBits = 0;
+
+            cmd.GetTemporaryRT(temporaryRenderTargetHandle.id, opaqueDesc, FilterMode.Bilinear);
+            Blit(cmd, source, temporaryRenderTargetHandle.Identifier(), vignetteMaterial, 0);
+            Blit(cmd, temporaryRenderTargetHandle.Identifier(), source);
+
+            context.ExecuteCommandBuffer(cmd);
+            CommandBufferPool.Release(cmd);
+        }
+    }
+
+    [SerializeField]
+    private Shader vignetteShader;
+    private Material vignetteMaterial;
+    private VignettePass vignettePass;
+
     public float vignetteIntensity = 1.8f;
-    [Range(0, 5)]
     public float vignetteSmoothness = 5;
-    private Material vignetteMat;
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    public override void Create()
+    {
+        vignetteMaterial = CoreUtils.CreateEngineMaterial(vignetteShader);
+        vignettePass = new VignettePass(vignetteMaterial)
+        {
+            renderPassEvent = RenderPassEvent.AfterRenderingTransparents
+        };
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-
-    }
-    private void OnRenderImage(RenderTexture source, RenderTexture destination)
-    {
-        if (vignetteMat == null)
-        {
-            vignetteMat = new Material(Shader.Find("CustomVignetteURP"));
-            Debug.Log("1");
-        }
-        if (vignetteMat == null || vignetteMat.shader == null || vignetteMat.shader.isSupported == false)
-        {
-            Debug.Log("2");
-            return;
-        }
-        vignetteMat.SetFloat("_VignetteIntensity", vignetteIntensity);
-        vignetteMat.SetFloat("_VignetteSmoothness", vignetteSmoothness);
-        Graphics.Blit(source, destination, vignetteMat, 0);
+        vignettePass.Setup(renderer.cameraColorTarget, vignetteIntensity, vignetteSmoothness);
+        renderer.EnqueuePass(vignettePass);
     }
 }

@@ -612,7 +612,6 @@ Shader "URP/Render/S_Ink3"
 
                 float3 color = float3(0, 0, 0);
                 color = MixFog(color.rgb, input.fogFactor);
-
                 return float4(color, alpha);
             }
             ENDHLSL
