@@ -28,6 +28,7 @@ Material:
   - _POSITIONANIMATION_ON
   - _RAMPGGUASSIAN_ON
   m_InvalidKeywords:
+  - ShadowCaster_ON
   - _RAMPSYTLE_INK
   - _RECEIVESHADOWS_ON
   - _USETEXTUREGRAY_ON
@@ -143,6 +144,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ALPHATEST: 0
+    - _Alpha: 1
     - _AlphaClip: 0
     - _BaseMapFloor: 35
     - _Blend: 0
@@ -206,11 +208,11 @@ Material:
     - _RampGguassian: 1
     - _RampSytle: 3
     - _ReceiveShadows: 1
-    - _RimLightBrightness: 0
-    - _RimLightFadeout: 0
+    - _RimLightBrightness: 1
+    - _RimLightFadeout: 0.983
     - _RimLightMixAlbedo: 1
     - _RimLightStrength: 0
-    - _RimLightThreshold: -1
+    - _RimLightThreshold: 1
     - _RimLightWidth: 20
     - _RimPower: 2.09
     - _RimThred: 0.663
@@ -230,6 +232,7 @@ Material:
     - _UVSec: 0
     - _UseOutline: 1
     - _UsePositionAnimation: 1
+    - _UseShadowCaster: 1
     - _UseTextureGray: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -242,7 +245,7 @@ Material:
     - _PositionOffsetSpeed: {r: 0, g: 0, b: 0, a: 1}
     - _RampDarkColor: {r: 0.8679245, g: 0.80569595, b: 0.80569595, a: 1}
     - _RampLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimLightTintColor: {r: 1, g: 0.68567735, b: 0.53207546, a: 1}
+    - _RimLightTintColor: {r: 2, g: 1.4980392, b: 0.8784314, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadowInColor: {r: 0.8301887, g: 0.69234604, b: 0.69234604, a: 1}
     - _ShadowOutColor: {r: 1, g: 1, b: 1, a: 1}

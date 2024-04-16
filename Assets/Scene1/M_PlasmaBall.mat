@@ -41,7 +41,7 @@ Material:
     m_Floats:
     - _Alpha: 1
     - _Contrast: 3.78
-    - _Distortion: 0.179
+    - _Distortion: 0.108
     - _FresnelPower: 1
     - _InnerColorPower: 0
     - _QueueControl: 0

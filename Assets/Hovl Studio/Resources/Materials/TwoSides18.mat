@@ -11,7 +11,6 @@ Material:
   m_Shader: {fileID: 4800000, guid: 56bedbcbfe68e1345a5e87fe73790dab, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
-  - _SIDEOPACITY_ON
   - _USEBACKFRESNEL_ON
   - _USECUSTOMDATA_ON
   m_LightmapFlags: 4
@@ -103,7 +102,6 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -113,7 +111,7 @@ Material:
     - _ReceiveShadows: 1
     - _SeparateEmission: 2
     - _SeparateFresnel: 0
-    - _Sideopacity: 1
+    - _Sideopacity: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

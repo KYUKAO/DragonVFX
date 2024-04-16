@@ -57,7 +57,7 @@ Material:
     - _Fresnel: 1
     - _FresnelEmission: 1
     - _OnlyNoise: 0
-    - _Opacity: 1
+    - _Opacity: 0.69
     - _UseCustomData: 1
     - _UseFresnel: 0
     - _Usecenterglow: 0
@@ -67,7 +67,7 @@ Material:
     - __dirty: 1
     m_Colors:
     - _BackFacesColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.88824385, g: 0.9056604, b: 0.81509435, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DistortionSpeedXYPowerZ: {r: 0, g: 0, b: 0, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _FrontFacesColor: {r: 1, g: 1, b: 1, a: 1}

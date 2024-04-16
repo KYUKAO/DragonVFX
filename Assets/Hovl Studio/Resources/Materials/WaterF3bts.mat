@@ -9,10 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterF3bts
   m_Shader: {fileID: 4800000, guid: 56bedbcbfe68e1345a5e87fe73790dab, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords:
-  - _USEBACKFRESNEL_ON
+  - _RECEIVESHADOWS_OFF
+  - _SEPARATEFRESNEL_ON
   - _USECUSTOMDATA_ON
+  - _USEFRESNEL_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -23,8 +26,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b22013b4a66bd8044a49335f5ba731a7, type: 3}
-        m_Scale: {x: 1, y: 3}
+        m_Texture: {fileID: 2800000, guid: dbec9039c70e09e47b8ff15d508f39ac, type: 3}
+        m_Scale: {x: 2, y: 6}
         m_Offset: {x: 0, y: 0}
     - _Mask:
         m_Texture: {fileID: 2800000, guid: 32a2a0fff0c45634fb83d8d541ab67a1, type: 3}
@@ -32,7 +35,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Noise:
         m_Texture: {fileID: 2800000, guid: 7d68a918c0765ff46bd6aa7513519399, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _tex3coord:
         m_Texture: {fileID: 0}
@@ -64,33 +67,32 @@ Material:
     - _BackFresnel: -2
     - _BackFresnelEmission: 1
     - _Cutoff: 0.5
-    - _Emission: 2
+    - _Emission: 1
     - _EnvironmentReflections: 1
     - _Fresnel: 1
-    - _FresnelEmission: 1
-    - _Height: 1
+    - _FresnelEmission: 0.5
     - _OnlyNoise: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
     - _SeparateEmission: 2
-    - _SeparateFresnel: 0
+    - _SeparateFresnel: 1
     - _Sideopacity: 0
     - _SpecularHighlights: 1
-    - _UseBackFresnel: 1
+    - _UseBackFresnel: 0
     - _UseCustomData: 1
-    - _UseFresnel: 0
+    - _UseFresnel: 1
     - _Usegradient: 1
     - _Usesmoothcorners: 0
     - _Vertexpower: 0.2
     - __dirty: 1
     m_Colors:
-    - _BackFacesColor: {r: 0.7019608, g: 0.905909, b: 1, a: 1}
+    - _BackFacesColor: {r: 0.19987537, g: 0.43041548, b: 0.5377358, a: 1}
     - _BackFresnelColor: {r: 0.35686278, g: 0.08627448, b: 0.08627448, a: 1}
     - _Color: {r: 0.41960788, g: 0.75651616, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FrontFacesColor: {r: 0.45882353, g: 0.8, b: 1, a: 1}
+    - _FresnelColor: {r: 0.7490566, g: 0.971045, b: 1, a: 1}
+    - _FrontFacesColor: {r: 0.44716978, g: 0.75625986, b: 1, a: 1}
     - _SpeedMainTexUVNoiseZW: {r: 0, g: -3, b: 0, a: -1}
     - _SpeedMainTexUVRemapZW: {r: -0.5, g: -4, b: -0.2, a: 1}
   m_BuildTextureStacks: []

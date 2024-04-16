@@ -14,6 +14,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scene3/WaterBullet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/RiderScriptEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@12.1.13/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -103,6 +104,10 @@
       <workItem from="1712908165936" duration="4672000" />
       <workItem from="1712917587091" duration="572000" />
       <workItem from="1713147579041" duration="3824000" />
+      <workItem from="1713250819254" duration="3000" />
+      <workItem from="1713257225895" duration="13000" />
+      <workItem from="1713257270344" duration="17264000" />
+      <workItem from="1713274599185" duration="499000" />
     </task>
     <servers />
   </component>
