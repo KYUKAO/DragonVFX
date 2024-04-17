@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-public class VignetteControl : ScriptableRendererFeature
+public class VignetteControl : ScriptableRendererFeature//脚本原打算用于后处理暗角效果，尚未使用
 {
     class VignettePass : ScriptableRenderPass
     {

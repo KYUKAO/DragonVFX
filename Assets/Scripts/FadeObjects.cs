@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class FadeObjects : MonoBehaviour
+public class FadeObjects : MonoBehaviour//脚本用于哪吒单个姿态透明度过渡
 {
     public float Interval = 1f; // 间隔时间
     public float IntervalOffest = 0.05f;

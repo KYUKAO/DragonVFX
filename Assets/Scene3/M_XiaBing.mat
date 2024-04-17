@@ -183,7 +183,7 @@ Material:
     - _InkMapScale: 0
     - _InlinePower: 0.45
     - _InlineThred: 0.5
-    - _InteriorNoiseLevel: 0.7
+    - _InteriorNoiseLevel: 0.129
     - _LineNoiseMapFresnelScale: 1
     - _LineNoiseMapMax: 1
     - _LineNoiseMapMin: 0

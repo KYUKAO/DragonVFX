@@ -28,13 +28,14 @@ Material:
   - _POSITIONANIMATION_ON
   - _RAMPGGUASSIAN_ON
   m_InvalidKeywords:
+  - ShadowCaster_ON
   - _RAMPSYTLE_INK
   - _RECEIVESHADOWS_ON
   - _USETEXTUREGRAY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -143,6 +144,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ALPHATEST: 0
+    - _Alpha: 1
     - _AlphaClip: 0
     - _BaseMapFloor: 35
     - _Blend: 0
@@ -230,6 +232,7 @@ Material:
     - _UVSec: 0
     - _UseOutline: 1
     - _UsePositionAnimation: 1
+    - _UseShadowCaster: 1
     - _UseTextureGray: 1
     - _WorkflowMode: 1
     - _ZWrite: 1

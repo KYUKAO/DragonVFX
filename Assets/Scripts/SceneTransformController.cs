@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SceneTransformController : MonoBehaviour
+public class SceneTransformController : MonoBehaviour//脚本用于当一个场景TimeLine播放完后自动切换场景
 {
     public Transform[] objectsToRotate; // 需要旋转的物体数组
     public Vector3 rotationCenter; // 旋转中心

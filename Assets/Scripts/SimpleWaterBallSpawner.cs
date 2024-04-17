@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleWaterBallSpawner : MonoBehaviour
+public class SimpleWaterBallSpawner : MonoBehaviour//脚本用于第一关自动生成水精华
 {
     public GameObject WaterBall;
     public float internalTime;
