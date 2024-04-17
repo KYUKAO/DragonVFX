@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 26d1e671b317c874faf74a5ecc1832ed
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _LotusTexture: {fileID: 2800000, guid: 8f41f520d7a3b0e4b9371e83dd266b02, type: 3}
+  - _InnerLotusTexture: {fileID: 2800000, guid: 5559efba572e6c84ca8451becb72e375,
+      type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
