@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 407732696604806206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.8651, y: 0.32, z: 0}
-  m_LocalScale: {x: 0.29247758, y: 1, z: 1}
+  m_LocalScale: {x: 0.16252396, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 153746665785287079}
@@ -61,7 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29420a212cdf00c49a7c5e18461a48a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 1.4
+  Interval: 1.2
+  IntervalOffest: 0.05
 --- !u!1001 &407732695979771515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,17 +83,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 52de731389b5de541b0cc1ab1e7ad6ee,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.878
+      value: -6.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52de731389b5de541b0cc1ab1e7ad6ee,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.279
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52de731389b5de541b0cc1ab1e7ad6ee,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52de731389b5de541b0cc1ab1e7ad6ee,
         type: 3}
@@ -153,7 +154,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: 260e6937bb744ea4fb91b0d0e1d1aeec, type: 2}
+      objectReference: {fileID: 2100000, guid: 6395fc56b8b22ec4aa50387f346d5520, type: 2}
     - target: {fileID: -243089905860343607, guid: 52de731389b5de541b0cc1ab1e7ad6ee,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -215,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -239,10 +240,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3014
 --- !u!1001 &407732696238866881
 PrefabInstance:
@@ -264,12 +267,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4f2b46e428629094db4f00c93e7f973c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4f2b46e428629094db4f00c93e7f973c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.119
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4f2b46e428629094db4f00c93e7f973c,
         type: 3}
@@ -367,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -391,10 +394,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3008
 --- !u!1001 &407732696242181770
 PrefabInstance:
@@ -416,12 +421,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 52d4642f47794644b8443af463c0af05,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52d4642f47794644b8443af463c0af05,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.119
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52d4642f47794644b8443af463c0af05,
         type: 3}
@@ -519,7 +524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -543,10 +548,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3007
 --- !u!1001 &407732696306080688
 PrefabInstance:
@@ -568,17 +575,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f6bae9b5fb9fcfa48aa8e0de8cb1f880,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6bae9b5fb9fcfa48aa8e0de8cb1f880,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6bae9b5fb9fcfa48aa8e0de8cb1f880,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f6bae9b5fb9fcfa48aa8e0de8cb1f880,
         type: 3}
@@ -676,7 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -700,10 +707,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3013
 --- !u!1001 &407732696425074255
 PrefabInstance:
@@ -725,17 +734,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e5c0de6e06111be478ae159fe7bac19a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.939
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5c0de6e06111be478ae159fe7bac19a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.279
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5c0de6e06111be478ae159fe7bac19a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5c0de6e06111be478ae159fe7bac19a,
         type: 3}
@@ -833,7 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -857,10 +866,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3011
 --- !u!1001 &407732696877154098
 PrefabInstance:
@@ -882,7 +893,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 52db232877748b64e9394ef4eac8bbfd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52db232877748b64e9394ef4eac8bbfd,
         type: 3}
@@ -892,7 +903,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 52db232877748b64e9394ef4eac8bbfd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.045
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52db232877748b64e9394ef4eac8bbfd,
         type: 3}
@@ -995,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1019,10 +1030,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3001
 --- !u!1001 &407732696961452369
 PrefabInstance:
@@ -1044,17 +1057,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d45aab2d7dc08294986241c30a8575bf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.921
+      value: -6.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d45aab2d7dc08294986241c30a8575bf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.279
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d45aab2d7dc08294986241c30a8575bf,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.125
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d45aab2d7dc08294986241c30a8575bf,
         type: 3}
@@ -1147,7 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1171,10 +1184,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3015
 --- !u!1001 &407732697005191610
 PrefabInstance:
@@ -1201,7 +1216,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e9feabbb6e00cd240b311123c2959302,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e9feabbb6e00cd240b311123c2959302,
         type: 3}
@@ -1211,7 +1226,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e9feabbb6e00cd240b311123c2959302,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.011
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e9feabbb6e00cd240b311123c2959302,
         type: 3}
@@ -1394,7 +1409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1418,10 +1433,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3004
 --- !u!1001 &407732697033191260
 PrefabInstance:
@@ -1443,7 +1460,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 35e8fe5cae0996b41ba8f2e4622d843c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 35e8fe5cae0996b41ba8f2e4622d843c,
         type: 3}
@@ -1596,7 +1613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1620,10 +1637,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3006
 --- !u!1001 &407732697202725858
 PrefabInstance:
@@ -1645,7 +1664,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 66ae103846ef07545b82c7146f3bf8f4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 66ae103846ef07545b82c7146f3bf8f4,
         type: 3}
@@ -1655,7 +1674,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 66ae103846ef07545b82c7146f3bf8f4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.045
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 66ae103846ef07545b82c7146f3bf8f4,
         type: 3}
@@ -1758,7 +1777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1782,10 +1801,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3003
 --- !u!1001 &407732697288738380
 PrefabInstance:
@@ -1957,7 +1978,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: fc562543ded7eb84db289de7ce942b57,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.022
+      value: -6.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc562543ded7eb84db289de7ce942b57,
         type: 3}
@@ -1967,7 +1988,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: fc562543ded7eb84db289de7ce942b57,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.006
+      value: -0.039
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fc562543ded7eb84db289de7ce942b57,
         type: 3}
@@ -3937,7 +3958,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: fc562543ded7eb84db289de7ce942b57,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 938387398249883434, guid: fc562543ded7eb84db289de7ce942b57,
         type: 3}
@@ -5711,7 +5732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -5735,10 +5756,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3000
 --- !u!1001 &407732697310376280
 PrefabInstance:
@@ -5760,17 +5783,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ef33780cbd7e59b42abb3a4bad4702b2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef33780cbd7e59b42abb3a4bad4702b2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.149
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef33780cbd7e59b42abb3a4bad4702b2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef33780cbd7e59b42abb3a4bad4702b2,
         type: 3}
@@ -5868,7 +5891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -5892,10 +5915,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3010
 --- !u!1001 &407732697426112656
 PrefabInstance:
@@ -5917,17 +5942,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: dbc067e207b723847abe336f423621c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dbc067e207b723847abe336f423621c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.209
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dbc067e207b723847abe336f423621c0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.048
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dbc067e207b723847abe336f423621c0,
         type: 3}
@@ -6020,7 +6045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -6044,10 +6069,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3012
 --- !u!1001 &407732697570815044
 PrefabInstance:
@@ -6064,7 +6091,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9d345227decd8414a84d98557ff0f52b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.022001
+      value: -6.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d345227decd8414a84d98557ff0f52b,
         type: 3}
@@ -6074,7 +6101,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9d345227decd8414a84d98557ff0f52b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.003
+      value: -0.048
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9d345227decd8414a84d98557ff0f52b,
         type: 3}
@@ -6202,7 +6229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -6226,10 +6253,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3003
 --- !u!1001 &407732697630337338
 PrefabInstance:
@@ -6251,17 +6280,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 6bc161106785b6d4b89d8a6932835ae8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.81
+      value: -6.19
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6bc161106785b6d4b89d8a6932835ae8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.25
+      value: 0.529
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6bc161106785b6d4b89d8a6932835ae8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.125
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6bc161106785b6d4b89d8a6932835ae8,
         type: 3}
@@ -6359,7 +6388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -6383,10 +6412,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3016
 --- !u!1001 &407732697686461836
 PrefabInstance:
@@ -6403,22 +6434,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 366ed4841194d03499a452211206ca26,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2.4562
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 366ed4841194d03499a452211206ca26,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.805
+      value: 5.82
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 366ed4841194d03499a452211206ca26,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.278
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 366ed4841194d03499a452211206ca26,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.117
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 366ed4841194d03499a452211206ca26,
         type: 3}
@@ -6516,7 +6547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -6540,10 +6571,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3009
 --- !u!1001 &407732697788496215
 PrefabInstance:
@@ -6565,7 +6598,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9c87b6efbd985cb44993c3349a092880,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.9388
+      value: -6.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9c87b6efbd985cb44993c3349a092880,
         type: 3}
@@ -6668,7 +6701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238a2379a3b32e54faf16885a9e26ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCurve:
+  FadeCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -6692,8 +6725,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fadeInTime: 0.8
-  fadeOutTime: 0.8
-  stayTransparentTime: 0.5
-  colorPropertyName: _BaseColor
+  FadeInTime: 1
+  FadeOutTime: 1
+  FadeMin: 0
+  FadeMax: 0.8
+  StayTransparentTime: 0.7
+  ColorPropertyName: _Alpha
   Queue: 3005

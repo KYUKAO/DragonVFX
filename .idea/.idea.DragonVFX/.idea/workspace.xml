@@ -15,6 +15,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LoopTimeline.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MCQ_TestRokidSceneManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.25/Rider/Editor/RiderScriptEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@12.1.13/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -111,6 +112,11 @@
       <workItem from="1713321299725" duration="4635000" />
       <workItem from="1713334622769" duration="186000" />
       <workItem from="1713334819861" duration="48000" />
+      <workItem from="1713340858832" duration="98000" />
+      <workItem from="1713340994980" duration="205000" />
+      <workItem from="1713341207900" duration="1000" />
+      <workItem from="1713341221063" duration="377000" />
+      <workItem from="1713341637744" duration="7000" />
     </task>
     <servers />
   </component>

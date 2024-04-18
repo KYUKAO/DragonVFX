@@ -10,7 +10,10 @@ public class ToggleShadows : EditorWindow
 
         foreach (GameObject obj in selectedObjects)
         {
-            ToggleShadowsRecursive(obj.transform, 0);
+            foreach (Transform child in obj.transform)
+            {
+                ToggleShadowsRecursive(child.transform, 0);
+            }
         }
     }
 
