@@ -183,7 +183,7 @@ Material:
     - _InteriorNoiseLevel: 0.64
     - _IsHighLIghted: 0
     - _IsHighLIghted1: 0
-    - _IsHighLighted: -0.61
+    - _IsHighLighted: 0
     - _LineNoiseMapFresnelScale: 1
     - _LineNoiseMapMax: 1
     - _LineNoiseMapMin: 0

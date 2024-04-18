@@ -91,7 +91,7 @@ Material:
     - _ClampTextureX: 0
     - _ClampTextureY: 0
     - _Cull: 2
-    - _Distortion: 0.064
+    - _Distortion: 0.01
     - _DistortionStr: 0.2
     - _DstBlend: 10
     - _Edge: 0.32

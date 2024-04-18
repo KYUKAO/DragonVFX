@@ -163,7 +163,7 @@ Material:
     - _ZWrite1: 0
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 1, g: 0.62547314, b: 0.4943396, a: 0}
+    - _Color: {r: 0.4528302, g: 0.29514435, b: 0.24093984, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MaskMoveScale: {r: 1, g: 1, b: 0, a: 0}
