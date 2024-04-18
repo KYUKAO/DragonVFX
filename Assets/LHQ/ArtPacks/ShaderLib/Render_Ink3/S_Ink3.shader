@@ -383,26 +383,26 @@ Shader "URP/Render/S_Ink3"
 				float3 fresnelColor = float3(0, 0, 0);
 				#if _LINESTYLE_SINGLECOLOR 
                     rimLightColor = _RimLightTintColor.rgb;
-                #elif _LINESTYLE_GOLD
-                    float3 goldMap = SAMPLE_TEXTURE2D(_GoldMap, sampler_GoldMap, input.uvBase).rgb;
-					float3 goldRampMap = SAMPLE_TEXTURE2D(_GoldRampMap, sampler_GoldRampMap, lightMode).rgb;
-					half goldFresnel = saturate(pow(saturate(dot(normalWS, viewDirWS)), _GoldFresnelBrightnessPower));
-					goldFresnel = (goldFresnel > _GoldFresnelBrightnessThred) ? goldFresnel * goldFresnel : goldFresnel;
-					rimLightColor = goldRampMap * goldMap;
-					rimLightColor *= lerp(0.8, 3, goldFresnel);
-					fresnel = 1 - saturate(pow(saturate(dot(normalWS, viewDirWS)), _GoldFresnelBrightnessPower));
-					float inkFresnelMap = TriPlanar(input.normalWS, positionWS * _InkMapFresnelScale, pivotWS, TEXTURE2D_ARGS(_InkMap, sampler_InkMap)).r;
-					fresnel = smoothstep(_GoldFresnelBrightnessThred, 1 - _GoldFresnelBrightnessThred, fresnel) * inkFresnelMap;
-					fresnelColor = rimLightColor;
-				
-                #elif _LINESTYLE_INK
-                    float inkRimMap = TriPlanar(input.normalWS, positionWS * _InkMapScale, pivotWS, TEXTURE2D_ARGS(_InkMap, sampler_InkMap)).r;
-					float inkFresnelMap = TriPlanar(input.normalWS, positionWS * _InkMapFresnelScale, pivotWS, TEXTURE2D_ARGS(_InkMap, sampler_InkMap)).r;
-					rimLightColor = lerp(_InkMapMin, _InkMapMax, inkRimMap);
-
-					fresnel = 1 - saturate(pow(saturate(dot(normalWS + inkRimMap * 0.2, viewDirWS)), _InkFresnelPower));
-					fresnel = smoothstep(_InkFresnelThred, 1 - _InkFresnelThred, fresnel);
-					fresnelColor = lerp(_InkMapMin, _InkMapMax, inkFresnelMap);
+     //            #elif _LINESTYLE_GOLD
+     //                float3 goldMap = SAMPLE_TEXTURE2D(_GoldMap, sampler_GoldMap, input.uvBase).rgb;
+					// float3 goldRampMap = SAMPLE_TEXTURE2D(_GoldRampMap, sampler_GoldRampMap, lightMode).rgb;
+					// half goldFresnel = saturate(pow(saturate(dot(normalWS, viewDirWS)), _GoldFresnelBrightnessPower));
+					// goldFresnel = (goldFresnel > _GoldFresnelBrightnessThred) ? goldFresnel * goldFresnel : goldFresnel;
+					// rimLightColor = goldRampMap * goldMap;
+					// rimLightColor *= lerp(0.8, 3, goldFresnel);
+					// fresnel = 1 - saturate(pow(saturate(dot(normalWS, viewDirWS)), _GoldFresnelBrightnessPower));
+					// float inkFresnelMap = TriPlanar(input.normalWS, positionWS * _InkMapFresnelScale, pivotWS, TEXTURE2D_ARGS(_InkMap, sampler_InkMap)).r;
+					// fresnel = smoothstep(_GoldFresnelBrightnessThred, 1 - _GoldFresnelBrightnessThred, fresnel) * inkFresnelMap;
+					// fresnelColor = rimLightColor;
+				 //
+     //            #elif _LINESTYLE_INK
+     //                float inkRimMap = TriPlanar(input.normalWS, positionWS * _InkMapScale, pivotWS, TEXTURE2D_ARGS(_InkMap, sampler_InkMap)).r;
+					// float inkFresnelMap = TriPlanar(input.normalWS, positionWS * _InkMapFresnelScale, pivotWS, TEXTURE2D_ARGS(_InkMap, sampler_InkMap)).r;
+					// rimLightColor = lerp(_InkMapMin, _InkMapMax, inkRimMap);
+     //
+					// fresnel = 1 - saturate(pow(saturate(dot(normalWS + inkRimMap * 0.2, viewDirWS)), _InkFresnelPower));
+					// fresnel = smoothstep(_InkFresnelThred, 1 - _InkFresnelThred, fresnel);
+					// fresnelColor = lerp(_InkMapMin, _InkMapMax, inkFresnelMap);
 				#endif
 
 				// BlendLightMode
@@ -430,72 +430,72 @@ Shader "URP/Render/S_Ink3"
 
 			    // UnityFog
                 color.rgb = MixFog(color.rgb, input.fogFactor);
-
-				switch(_DebugColorSwitch)
-	            {
-	                case 1:	// 基本贴图
-	                    color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv).rgb  * _BaseColor.rgb;
-	                    break;
-	                case 2:	// 减少基本贴图色阶
-	                    color = baseMap.rgb;
-	                    break;
-					case 3:	// 混合半兰伯特，叠加一点点法线贴图
-	                    color = baseMap.rgb * lightMode;
-	                    break;
-					case 4:	// 混合Ramp图（豪华版半兰伯特）
-	                    color = baseMap.rgb * SAMPLE_TEXTURE2D(_RampMap, sampler_RampMap, lightMode).rgb;
-	                    break;
-					case 5:	// Ramp添加噪波偏移
-	                    color = baseMap.rgb * SAMPLE_TEXTURE2D(_RampMap, sampler_RampMap, noiseUV).rgb;
-	                    break;
-	                case 6:	// Ramp高斯模糊
-	                    color = baseMap.rgb * rampColor;
-	                    break;
-					case 7:	// 混合灯光和低分辨率阴影
-	                    color = baseMap.rgb * rampColor * mainLightColor * mainLightShadow;	//最上层加if了
-	                    break;
-	                case 8:	// 阴影位置添加噪波
-	                    color = baseMap.rgb * rampColor * mainLightColor * mainLightShadow;
-	                    break;
-	                case 9:	// 阴影映射双颜色
-	                    color = baseMap.rgb * rampColor * mainLightColor * mainLightShadowColor;
-	                    break;
-	                case 10:	// 混合环境光
-	                    color = baseMap.rgb * rampColor * mainLightColor * mainLightShadowColor + baseMap.rgb * Ambient;
-	                    break;
-	                case 11:	// 叠加纸张效果
-	                	color = directLight + indirectLight;
-	                    color = lerp(color, softlight(paperMap, color), _PaperStrength);
-	                    break;
-					case 12:	// 叠加深度检测的边缘光
-						color = directLight + indirectLight;
-	                    color = lerp(color, softlight(paperMap, color), _PaperStrength);
-						color = lerp(color, 1, saturate(rimLight));
-	                    break;
-					case 13:	// 鎏金边缘光（叠加Ramp图和金粉图）
-	                    color = directLight + indirectLight;
-	                    color = lerp(color, softlight(paperMap, color), _PaperStrength);
-						color = lerp(color, lerp(color, rimLightColor * _RimLightBrightness, saturate(rimLight)), _RimLightStrength);
-	                    break;
-					case 14:	// 鎏金边缘光（给个菲涅尔）
-						color = directLight + indirectLight;
-	                    color = lerp(color, softlight(paperMap, color), _PaperStrength);
-						color = lerp(color, lerp(color, rimLightColor * _RimLightBrightness, saturate(rimLight)), _RimLightStrength);
-	                    color = lerp(color, fresnelColor, fresnel);
-	                    break;
-					case 15:	// 鎏金法线外扩描边（近大远小）
-	                    break;
-					case 16:	// 水墨边缘光（叠加噪波图）
-	                    break;
-					case 17:	// 水墨边缘光（给个菲涅尔）
-	                    break;
-					case 18:	// 水墨边缘光法线外扩描边（近大远小）
-	                    break;
-					case 19:	// 混合雾
-	                    break;
-	                default:
-	                    break;
-	            }
+	   //
+				// switch(_DebugColorSwitch)
+	   //          {
+	   //              case 1:	// 基本贴图
+	   //                  color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv).rgb  * _BaseColor.rgb;
+	   //                  break;
+	   //              case 2:	// 减少基本贴图色阶
+	   //                  color = baseMap.rgb;
+	   //                  break;
+				// 	case 3:	// 混合半兰伯特，叠加一点点法线贴图
+	   //                  color = baseMap.rgb * lightMode;
+	   //                  break;
+				// 	case 4:	// 混合Ramp图（豪华版半兰伯特）
+	   //                  color = baseMap.rgb * SAMPLE_TEXTURE2D(_RampMap, sampler_RampMap, lightMode).rgb;
+	   //                  break;
+				// 	case 5:	// Ramp添加噪波偏移
+	   //                  color = baseMap.rgb * SAMPLE_TEXTURE2D(_RampMap, sampler_RampMap, noiseUV).rgb;
+	   //                  break;
+	   //              case 6:	// Ramp高斯模糊
+	   //                  color = baseMap.rgb * rampColor;
+	   //                  break;
+				// 	case 7:	// 混合灯光和低分辨率阴影
+	   //                  color = baseMap.rgb * rampColor * mainLightColor * mainLightShadow;	//最上层加if了
+	   //                  break;
+	   //              case 8:	// 阴影位置添加噪波
+	   //                  color = baseMap.rgb * rampColor * mainLightColor * mainLightShadow;
+	   //                  break;
+	   //              case 9:	// 阴影映射双颜色
+	   //                  color = baseMap.rgb * rampColor * mainLightColor * mainLightShadowColor;
+	   //                  break;
+	   //              case 10:	// 混合环境光
+	   //                  color = baseMap.rgb * rampColor * mainLightColor * mainLightShadowColor + baseMap.rgb * Ambient;
+	   //                  break;
+	   //              case 11:	// 叠加纸张效果
+	   //              	color = directLight + indirectLight;
+	   //                  color = lerp(color, softlight(paperMap, color), _PaperStrength);
+	   //                  break;
+				// 	case 12:	// 叠加深度检测的边缘光
+				// 		color = directLight + indirectLight;
+	   //                  color = lerp(color, softlight(paperMap, color), _PaperStrength);
+				// 		color = lerp(color, 1, saturate(rimLight));
+	   //                  break;
+				// 	case 13:	// 鎏金边缘光（叠加Ramp图和金粉图）
+	   //                  color = directLight + indirectLight;
+	   //                  color = lerp(color, softlight(paperMap, color), _PaperStrength);
+				// 		color = lerp(color, lerp(color, rimLightColor * _RimLightBrightness, saturate(rimLight)), _RimLightStrength);
+	   //                  break;
+				// 	case 14:	// 鎏金边缘光（给个菲涅尔）
+				// 		color = directLight + indirectLight;
+	   //                  color = lerp(color, softlight(paperMap, color), _PaperStrength);
+				// 		color = lerp(color, lerp(color, rimLightColor * _RimLightBrightness, saturate(rimLight)), _RimLightStrength);
+	   //                  color = lerp(color, fresnelColor, fresnel);
+	   //                  break;
+				// 	case 15:	// 鎏金法线外扩描边（近大远小）
+	   //                  break;
+				// 	case 16:	// 水墨边缘光（叠加噪波图）
+	   //                  break;
+				// 	case 17:	// 水墨边缘光（给个菲涅尔）
+	   //                  break;
+				// 	case 18:	// 水墨边缘光法线外扩描边（近大远小）
+	   //                  break;
+				// 	case 19:	// 混合雾
+	   //                  break;
+	   //              default:
+	   //                  break;
+	   //          }
                 
                 return half4(color, alpha);
             } 
