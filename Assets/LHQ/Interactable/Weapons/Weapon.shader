@@ -12,6 +12,10 @@ Shader "Weapon"
 		_BaseMapColor("BaseMapColor", Color) = (1,1,1,1)
 		_FresnelColor("FresnelColor", Color) = (1,1,1,0)
 		_IsHighLighted("IsHighLighted", Float) = 0
+		_Noise("Noise", Float) = 4.5
+		_SpeedOffset("Speed/Offset", Vector) = (0,0.5,0.5,0.5)
+		_NoiseOffset("NoiseOffset", Vector) = (-0.5,0.5,0,0)
+		_Clamp("Clamp", Float) = 2
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -207,7 +211,7 @@ Shader "Weapon"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -229,11 +233,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -266,7 +274,35 @@ Shader "Weapon"
 
 			
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			VertexOutput VertexFunction ( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -275,6 +311,15 @@ Shader "Weapon"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				float3 normalizeResult42 = normalize( v.normalOS );
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.ase_texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -283,7 +328,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = ( _IsHighLighted > 0.0 ? ( normalizeResult42 * _OutlineWidth ) : float3( 0,0,0 ) );
+				float3 vertexValue = ( ( _IsHighLighted > 0.0 ? ( normalizeResult42 * _OutlineWidth ) : float3( 0,0,0 ) ) + float3( PositionOffset81 ,  0.0 ) );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -317,7 +362,8 @@ Shader "Weapon"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -334,7 +380,7 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -373,7 +419,7 @@ Shader "Weapon"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -550,11 +596,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -588,7 +638,35 @@ Shader "Weapon"
 			sampler2D _TextureSample0;
 
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -596,6 +674,16 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
+				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -607,7 +695,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1059,7 +1147,7 @@ Shader "Weapon"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1079,11 +1167,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1116,7 +1208,35 @@ Shader "Weapon"
 
 			
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			float3 _LightDirection;
 			float3 _LightPosition;
 
@@ -1127,6 +1247,15 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.ase_texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1135,7 +1264,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
 				#else
@@ -1183,7 +1312,8 @@ Shader "Weapon"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1200,7 +1330,7 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1239,7 +1369,7 @@ Shader "Weapon"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1374,11 +1504,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1412,7 +1546,35 @@ Shader "Weapon"
 			sampler2D _TextureSample0;
 
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1420,6 +1582,16 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.ase_texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
+				
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1431,7 +1603,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1628,7 +1800,7 @@ Shader "Weapon"
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1650,11 +1822,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1687,7 +1863,35 @@ Shader "Weapon"
 
 			
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1695,6 +1899,15 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.ase_texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1702,7 +1915,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1740,7 +1953,8 @@ Shader "Weapon"
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1758,7 +1972,7 @@ Shader "Weapon"
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1798,7 +2012,7 @@ Shader "Weapon"
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2001,11 +2215,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2041,7 +2259,35 @@ Shader "Weapon"
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -2049,6 +2295,16 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
+				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2059,7 +2315,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2405,7 +2661,7 @@ Shader "Weapon"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2418,11 +2674,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2455,7 +2715,35 @@ Shader "Weapon"
 
 			
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			struct SurfaceDescription
 			{
 				float Alpha;
@@ -2471,6 +2759,15 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.ase_texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2479,7 +2776,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2501,7 +2798,8 @@ Shader "Weapon"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2518,7 +2816,7 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -2557,7 +2855,7 @@ Shader "Weapon"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2648,7 +2946,7 @@ Shader "Weapon"
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2661,11 +2959,15 @@ Shader "Weapon"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _SpeedOffset;
 			float4 _OutlineColor;
 			float4 _BaseMapColor;
 			float4 _FresnelColor;
+			float2 _NoiseOffset;
 			float _IsHighLighted;
 			float _OutlineWidth;
+			float _Noise;
+			float _Clamp;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2698,7 +3000,35 @@ Shader "Weapon"
 
 			
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			struct SurfaceDescription
 			{
 				float Alpha;
@@ -2714,6 +3044,15 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float4 appendResult93 = (float4(_SpeedOffset.x , _SpeedOffset.y , 0.0 , 0.0));
+				float2 texCoord55 = v.ase_texcoord.xy * float2( 1,1 ) + ( _TimeParameters.x * appendResult93 ).xy;
+				float simplePerlin2D58 = snoise( texCoord55*_Noise );
+				simplePerlin2D58 = simplePerlin2D58*0.5 + 0.5;
+				float2 texCoord64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult68 = clamp( ( (texCoord64).x * _SpeedOffset.z ) , -_Clamp , _Clamp );
+				float2 texCoord71 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float clampResult75 = clamp( ( (texCoord71).y * _SpeedOffset.w ) , -_Clamp , _Clamp );
+				float2 PositionOffset81 = ( ( simplePerlin2D58 * _NoiseOffset ) * ( ( 1.0 - clampResult68 ) * ( 1.0 - clampResult75 ) ) );
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2722,7 +3061,7 @@ Shader "Weapon"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = float3( PositionOffset81 ,  0.0 );
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -2743,7 +3082,8 @@ Shader "Weapon"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2760,7 +3100,7 @@ Shader "Weapon"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -2799,7 +3139,7 @@ Shader "Weapon"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2857,6 +3197,31 @@ Shader "Weapon"
 }
 /*ASEBEGIN
 Version=19303
+Node;AmplifyShaderEditor.TextureCoordinatesNode;64;-1824,-976;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;71;-1840,-752;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.Vector4Node;92;-2096,-1040;Inherit;False;Property;_SpeedOffset;Speed/Offset;7;0;Create;True;0;0;0;False;0;False;0,0.5,0.5,0.5;0,0.5,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ComponentMaskNode;65;-1536,-928;Inherit;False;True;False;True;True;1;0;FLOAT2;0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ComponentMaskNode;72;-1584,-704;Inherit;False;False;True;True;True;1;0;FLOAT2;0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;54;-2112,-1328;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DynamicAppendNode;93;-1856,-1200;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;97;-1488,-512;Inherit;False;Property;_Clamp;Clamp;9;0;Create;True;0;0;0;False;0;False;2;2;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;66;-1280,-912;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;73;-1264,-720;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;89;-1712,-1312;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.NegateNode;98;-1264,-608;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;55;-1520,-1312;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;78;-1456,-1184;Inherit;False;Property;_Noise;Noise;6;0;Create;True;0;0;0;False;0;False;4.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;68;-1056,-832;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-2;False;2;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;75;-1056,-688;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-2;False;2;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;69;-896,-816;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;76;-896,-704;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;58;-1264,-1312;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;95;-1168,-1056;Inherit;False;Property;_NoiseOffset;NoiseOffset;8;0;Create;True;0;0;0;False;0;False;-0.5,0.5;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;77;-688,-896;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;96;-768,-1248;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;70;-432,-1072;Inherit;True;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;81;-195.2993,-1052.08;Inherit;False;PositionOffset;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.PosVertexDataNode;80;-576,-640;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;12;-1949.237,539.3092;Inherit;False;Constant;_Fresnel;Fresnel;0;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.FresnelNode;13;-1789.481,450.1941;Inherit;True;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;14;-1786.4,61.621;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
@@ -2882,6 +3247,9 @@ Node;AmplifyShaderEditor.RangedFloatNode;49;-800,864;Inherit;False;Property;_IsH
 Node;AmplifyShaderEditor.Compare;50;-320,672;Inherit;False;2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.Compare;51;-368,464;Inherit;False;2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.Compare;52;-432,-48;Inherit;False;2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;82;-240,336;Inherit;False;81;PositionOffset;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;85;-240,880;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT2;0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;83;-608,944;Inherit;False;81;PositionOffset;1;0;OBJECT;;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -2892,6 +3260,35 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;-128,528;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;3;True;12;all;0;True;True;1;5;False;;10;False;;2;5;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;True;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;RenderType=Transparent=RenderType;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;-66.78248,-57.24271;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;Weapon;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=2000;UniversalMaterialType=Lit;True;3;True;12;all;0;True;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;39;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;638485127571314697;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;0;638483273213126341;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;0;638483387601598078;Override Baked GI;0;0;Extra Pre Pass;1;638485119470505324;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638483291747947839;  Early Z;0;638483284962439116;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;True;True;True;False;False;True;True;True;True;True;False;;False;0
+WireConnection;65;0;64;0
+WireConnection;72;0;71;0
+WireConnection;93;0;92;1
+WireConnection;93;1;92;2
+WireConnection;66;0;65;0
+WireConnection;66;1;92;3
+WireConnection;73;0;72;0
+WireConnection;73;1;92;4
+WireConnection;89;0;54;0
+WireConnection;89;1;93;0
+WireConnection;98;0;97;0
+WireConnection;55;1;89;0
+WireConnection;68;0;66;0
+WireConnection;68;1;98;0
+WireConnection;68;2;97;0
+WireConnection;75;0;73;0
+WireConnection;75;1;98;0
+WireConnection;75;2;97;0
+WireConnection;69;0;68;0
+WireConnection;76;0;75;0
+WireConnection;58;0;55;0
+WireConnection;58;1;78;0
+WireConnection;77;0;69;0
+WireConnection;77;1;76;0
+WireConnection;96;0;58;0
+WireConnection;96;1;95;0
+WireConnection;70;0;96;0
+WireConnection;70;1;77;0
+WireConnection;81;0;70;0
 WireConnection;13;3;12;0
 WireConnection;14;0;24;3
 WireConnection;14;1;24;4
@@ -2917,10 +3314,13 @@ WireConnection;51;0;49;0
 WireConnection;51;2;17;0
 WireConnection;52;0;49;0
 WireConnection;52;2;35;0
+WireConnection;85;0;50;0
+WireConnection;85;1;83;0
 WireConnection;0;0;51;0
-WireConnection;0;3;50;0
+WireConnection;0;3;85;0
 WireConnection;1;0;37;0
 WireConnection;1;2;52;0
 WireConnection;1;6;39;0
+WireConnection;1;8;82;0
 ASEEND*/
-//CHKSM=0063594993A7ABC065A8F63298B9A875F11B6CF1
+//CHKSM=E6BAA9C30A7523730C2AA4A97E3E8829CCD85871
