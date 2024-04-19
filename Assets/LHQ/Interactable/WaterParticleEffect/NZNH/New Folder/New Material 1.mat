@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material 1
-  m_Shader: {fileID: -6465566751694194690, guid: 87d2af31bf304ca479c70716704d715b, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 87d2af31bf304ca479c70716704d715b,
+    type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -129,7 +130,9 @@ Material:
     - _Color: {r: 0.8235849, g: 0.88882774, b: 0.9150943, a: 1}
     - _Color_1: {r: 1, g: 1, b: 1, a: 0}
     - _E_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0}
+    - _E_Color1: {r: 1, g: 1, b: 1, a: 0}
     - _E_Color2: {r: 1, g: 1, b: 1, a: 0}
+    - _E_color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _direction: {r: 1.86, g: 7.64, b: -0.9, a: 0}

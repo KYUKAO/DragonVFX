@@ -11,9 +11,9 @@ Material:
   m_Shader: {fileID: 4800000, guid: bff2e6f3bc8655945984739d4888b80e, type: 3}
   m_ValidKeywords:
   - _LINESTYLE_SINGLECOLOR
-  - _OUTLINE_ON
   - _RAMPGGUASSIAN_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - ShadowCaster_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -125,7 +125,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
+    - _Alpha: 0.404
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _BaseMapFloor: 35
@@ -197,7 +197,8 @@ Material:
     - _SrcBlend: 5
     - _Surface: 1
     - _UVSec: 0
-    - _UseOutline: 1
+    - _UseOutline: 0
+    - _UseShadowCaster: 1
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:

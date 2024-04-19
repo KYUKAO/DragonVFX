@@ -89,9 +89,8 @@ Shader "URP/Render/S_Ink3"
             "RenderPipeline" = "UniversalPipeline"
             "RenderType" = "Transparent"
             "Queue" = "Transparent"
+        	"IgnoreProjector"="True"
         }
-        Blend SrcAlpha OneMinusSrcAlpha
-
         
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -190,6 +189,12 @@ Shader "URP/Render/S_Ink3"
         ENDHLSL
 
 
+		// Extra pass that renders to depth buffer only
+		Pass {
+			ZWrite On
+			ColorMask 0
+		}
+		
         Pass 
         {
             Name "NPR"
@@ -201,6 +206,8 @@ Shader "URP/Render/S_Ink3"
             // -------------------------------------
             // Render State Commands
             Cull [_CullMode]
+            ZWrite Off
+	        Blend SrcAlpha OneMinusSrcAlpha
             
 			HLSLPROGRAM
             #pragma prefer_hlslcc gles
