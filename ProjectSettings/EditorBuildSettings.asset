@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/LHQ/Scene/Scene3.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/ChenTangGuan.unity
+    guid: 41a95014bb78c62409b5b00c055fff84
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c175528fa7854c449bef8abc060501ae,
       type: 2}

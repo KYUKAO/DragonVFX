@@ -54,7 +54,10 @@ namespace LevelArtInitialLHQ
                     foreach (Material material in renderer.materials)
                     {
                         material.renderQueue = Queue;
-                        material.SetFloat(ColorPropertyName, newAlpha);
+                        Color col = material.GetColor("_BaseColor");
+                        col.a = newAlpha;
+                        material.SetColor("_BaseColor",col);
+                        // material.SetFloat(ColorPropertyName, newAlpha);
                     }
                 }
 
@@ -68,7 +71,10 @@ namespace LevelArtInitialLHQ
                 foreach (Material material in renderer.materials)
                 {
                     material.renderQueue = Queue;
-                    material.SetFloat(ColorPropertyName, endAlpha);
+                    // material.SetFloat(ColorPropertyName, endAlpha);
+                    Color col = material.GetColor("_BaseColor");
+                    col.a = endAlpha;
+                    material.SetColor("_BaseColor",col);
                 }
             }
         }

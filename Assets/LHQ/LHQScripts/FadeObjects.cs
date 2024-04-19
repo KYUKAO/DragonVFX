@@ -30,7 +30,7 @@ namespace LevelArtInitialLHQ
             while (currentIndex < children.Count)
             {
                 // 激活当前子物体
-                currentPos += new Vector3(0f, 0, -IntervalOffest);
+                currentPos += new Vector3(0f, -IntervalOffest, 0);
                 children[currentIndex].transform.position += currentPos;
                 children[currentIndex].SetActive(true);
                 // 等待指定的时间间隔

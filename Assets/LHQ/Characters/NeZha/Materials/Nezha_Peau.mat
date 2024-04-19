@@ -175,7 +175,7 @@ Material:
     - _OutlineAutoSize: 0
     - _OutlineNoiseScale: 1
     - _OutlineNoiseWidth: 1
-    - _OutlineWidth: 0.2
+    - _OutlineWidth: 0.4
     - _PaperMapScale: 0.4
     - _PaperStrength: 0
     - _Parallax: 0.02
