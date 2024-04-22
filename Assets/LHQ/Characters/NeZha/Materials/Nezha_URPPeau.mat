@@ -7,28 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Nezha_Peau
-  m_Shader: {fileID: 4800000, guid: bff2e6f3bc8655945984739d4888b80e, type: 3}
-  m_ValidKeywords:
-  - _LINESTYLE_SINGLECOLOR
-  - _RAMPGGUASSIAN_ON
-  m_InvalidKeywords:
-  - ShadowCaster_ON
+  m_Name: Nezha_URPPeau
+  m_Shader: {fileID: 4800000, guid: ce8f0fb36785d70448dd8b6603e7d1ce, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 958519ebd57eeca4eb78eba55627ed8c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 237bcf56364f9cd4caf1b32083958764, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -125,7 +122,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0
+    - _Alpha: 0.2
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _BaseMapFloor: 35
