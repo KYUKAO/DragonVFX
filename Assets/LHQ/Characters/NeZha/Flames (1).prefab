@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4009629586362353476}
   - component: {fileID: 3079864560097887172}
   - component: {fileID: 8921565439296372773}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Flames (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.048, y: -9.131, z: 44.572}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -748,7 +748,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.01
+      value: 0.007
       mode: 0
       spread: 0
       speed:
@@ -977,14 +977,14 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 2
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.50433075
+          value: 1
           inSlope: 0.45939735
           outSlope: 0.45939735
           tangentMode: 0
@@ -992,8 +992,17 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.10596026
         - serializedVersion: 3
+          time: 0.44360796
+          value: 0.75712335
+          inSlope: -0.5966879
+          outSlope: -0.5966879
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0.2297306
           inSlope: 0.38176286
           outSlope: 0.38176286
           tangentMode: 0
@@ -4790,7 +4799,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 3
@@ -4802,7 +4811,7 @@ ParticleSystemRenderer:
   m_SortingFudge: -2
   m_NormalDirection: 1
   m_ShadowBias: 0
-  m_RenderAlignment: 0
+  m_RenderAlignment: 1
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 1
