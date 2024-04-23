@@ -632,7 +632,7 @@ Shader "URP/Render/S_Ink3"
                 "RenderType" = "Opaque"
                 "LightMode" = "UniversalForwardOnly"
             }
-
+            Blend One OneMinusSrcAlpha
             // -------------------------------------
             // Render State Commands
             Cull Front
