@@ -144,7 +144,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ALPHATEST: 0
-    - _Alpha: 1
+    - _Alpha: 0.952
     - _AlphaClip: 0
     - _BaseMapFloor: 35
     - _Blend: 0
@@ -160,6 +160,7 @@ Material:
     - _DebugColorSwitch: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _Dither: 0.511
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FresnelPower: 2

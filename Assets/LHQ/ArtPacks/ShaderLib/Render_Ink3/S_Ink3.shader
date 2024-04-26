@@ -187,13 +187,13 @@ Shader "URP/Render/S_Ink3"
 		}
 
         ENDHLSL
-
-
+        
 	Pass
         {
             Name "DepthOnly"
 //            Tags{"LightMode" = "DepthOnly"}
-
+            Tags {  "Queue" = "Geometry" "RenderType" = "Opaque"}
+            
             ZWrite On
             ColorMask 0
             Cull[_CullMode]
@@ -270,13 +270,7 @@ Shader "URP/Render/S_Ink3"
 			}
             ENDHLSL
         }
-
-		// Extra pass that renders to depth buffer only
-//		Pass {
-//			ZWrite On
-//			ColorMask 0
-//		}
-//		
+	
         Pass 
         {
             Name "NPR"
